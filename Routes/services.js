@@ -1,10 +1,11 @@
 const router = require("express").Router();
 const Service = require("../Models/Service");
 const User = require("../Models/User");
-const accountSid = "AC42af4c71064fca1cd763a4e882edefe6";
-const authToken = "23e4f48babc9f9bf3e0535132fcfd283";
+const dotenv = require("dotenv").config()
+const accountSid = process.env.accountSid;
+const authToken = process.env.authToken;
+const verifySid = process.env.verifySid;
 const client = require("twilio")(accountSid, authToken);
-const verifySid = "VA61fb0e8b6ff3056caba1bdfa29824ddf";
 
 
 router.get("/getOrders", async (req, res) => {
