@@ -85,7 +85,7 @@ router.post("/placeOrder", async (req, res) => {
 })
 
 router.post("/cancelOrder", (req, res) => {
-    // Code to Cancel Orders
+    
 })
 
 router.post("/rescheduleAppointment", async (req, res) => {

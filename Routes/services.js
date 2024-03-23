@@ -1,17 +1,37 @@
 const router = require("express").Router();
 const Service = require("../Models/Service");
-const User = require("../Models/User");
+const User= require("../Models/User");
 
-router.get("/getServiceProvider", (req, res) => {
+
+router.get("/getOrders", async (req, res) => {
+    const user = await User.findById(req.body._id)
+    if (!user) {
+        res.status(404).json({ err: "User Not Found" })
+    }
+    res.json({ orders: user.orders, count: user.orders.length })
+});
+
+router.post("/completeOrders", async (req, res) => {
+    await User.findOneAndUpdate(
+        { "orders._id": req.body._id },
+        { $set: { "orders.$.status": "Complete" } },
+        { new: true }
+    ).then(async(update) => {
+        await User.findOneAndUpdate(
+            { "orderedServices._id": req.body._id },
+            { $set: { "orderedServices.$.status": "Complete" } },
+            { new: true }
+        ).then((update) => {
+            res.json(update)
+        }).catch(err => {
+            res.status(401).json(err)
+        })
+    }).catch(err => {
+        res.status(401).json(err)
+    })
+
     
-});
 
-router.get("/getOrders", (req, res) => {
-    // Gives Orders Of A Serviceman Accounts
-});
-
-router.post("/completeOrders", (req, res) => {
-    // After Fulfilling The Services Orders
 });
 
 
