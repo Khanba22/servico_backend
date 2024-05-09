@@ -2,6 +2,7 @@ const router = require("express").Router();
 const Service = require("../Models/Service");
 const User = require("../Models/User");
 const dotenv = require("dotenv").config()
+const Message = require("../Models/MessageSchema");
 const accountSid = process.env.accountSid;
 const authToken = process.env.authToken;
 const verifySid = process.env.verifySid;
@@ -131,6 +132,20 @@ router.post("/addService", async (req, res) => {
             })
         })
 });
+
+router.get("/getMessages", async (req, res)=>{
+    const data = await Message.aggregate([
+        {
+            $sort:
+              {
+                date:-1,
+              },
+          },
+    ]).catch(err=>{
+        res.status(500).json(err)
+    })
+    res.json(data)
+})
 
 router.post("/removeService", (req, res) => {
     const service = req.body;

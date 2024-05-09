@@ -2,9 +2,10 @@ const express = require("express")
 const PORT = process.env.PORT || 4000
 const connectToMongo = require("./DB/DB")
 const app = express()
-const User = require("./Models/User")
 connectToMongo()
 app.use(express.json())
+const cors = require("cors")
+app.use(cors())
 
 // Routes
 app.use("/register",require("./Routes/createAccount"))

@@ -33,7 +33,7 @@ router.post("/", (req, res) => {
             console.error('Error saving user:', error);
             res.status(500).json({ error: 'Internal server error' }); // Respond with an error status
         });
-})
+})  
 
 
 module.exports = router
